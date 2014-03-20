@@ -1,6 +1,6 @@
 # sublime-bottom-margin
 
-Sublime Text 3 plugin that keeps some space between your cursor and the bottom of the view.
+Sublime Text 3 plugin that gives the editor a bottom margin, keeping some space between your cursor and the bottom of the view.
 
 I made this plugin because I was too lazy to look all the way at the bottom of the window when I was taking notes in Sublime. This plugin shifts the view up as you are typing so that there is always a given amount of space between your cursor and the bottom of the window while you type.
 
