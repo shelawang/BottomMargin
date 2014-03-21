@@ -27,9 +27,9 @@ To manage the settings of this plugin:
 `bottom_margin_off`
 
 - toggled by the keybinding (see below)
-- set to true to turn off bottom margin and get back default Sublime behavior
-- set to false to turn on bottom margin
-- if this setting is not present, default is false
+- set to true to return to default Sublime behavior
+- set to false to enable bottom margin
+- if this setting is not present, bottom margin is enabled by default
 
 
 ## Key Bindings
@@ -43,8 +43,8 @@ The keybinding `alt+shift+m` will toggle the bottom margin on and off. This sequ
 - Keybinding files for OSX and Linux
 - Plugin-specific settings file
 - Toggling on/off using the Sublime Command Palette
-- Ability to set the bottom margin to be half of the window size
-- "Focus mode": dim all but several lines around the current line (if possible)
+- Typewriter mode: set the bottom margin to be half of the window size
+- Focus mode: dim all but several lines around the current line (if possible)
 - Sublime Text 2 version
 
 ## License
