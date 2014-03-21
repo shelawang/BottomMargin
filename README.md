@@ -6,14 +6,16 @@ I made this plugin because I was too lazy to look all the way at the bottom of t
 
 ## Manual Installation
 
-1. Download or clone this repository to a directory `sublime-bottom-margin` in the Sublime Text Packages directory. In Sublime Text 3, that folder is called `Data/Packages`.
+1. Download or clone this repository to a directory `sublime-bottom-margin` in the Sublime Text Packages directory.
+    * In Sublime Text 3, the Packages directory is called `Data/Packages`.
+    * You can find this directory by clicking `Preferences > Browse Packages...` in Sublime.
 2. Restart Sublime Text to complete installation.
 
 ## Configuration
 
 To manage the settings of this plugin:
 
-1. Open user settings by clicking `Preferences`, then `Settings - User`.
+1. Open user settings by clicking `Preferences > Settings - User`.
 2. Add the `bottom_margin_size` and `bottom_margin_off` options.
 
 ### Settings
@@ -27,8 +29,8 @@ To manage the settings of this plugin:
 `bottom_margin_off`
 
 - toggled by the keybinding (see below)
-- set to true to return to default Sublime behavior
-- set to false to enable bottom margin
+- set to `true` to return to default Sublime behavior
+- set to `false` to enable bottom margin
 - if this setting is not present, bottom margin is enabled by default
 
 
@@ -40,7 +42,6 @@ The keybinding `alt+shift+m` will toggle the bottom margin on and off. This sequ
 
 - Screenshots
 - Installation using Package Control
-- Keybinding files for OSX and Linux
 - Plugin-specific settings file
 - Toggling on/off using the Sublime Command Palette
 - Typewriter mode: set the bottom margin to be half of the window size
