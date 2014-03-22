@@ -25,7 +25,15 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
     """
     def run(self, edit):
         # get the necessary settings
-        sets = sublime.load_settings('Preferences.sublime-settings')
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
+
+        if not sets.has('bottom_margin_size'):
+            sets.set('bottom_margin_size', 3)
+            sublime.save_settings('BottomMargin.sublime-settings')
+        if not sets.has('bottom_margin_off'):
+            sets.set('bottom_margin_off', False)
+            sublime.save_settings('BottomMargin.sublime-settings')
+            
         margin_size = sets.get('bottom_margin_size')
         margin_off = sets.get('bottom_margin_off')
 
@@ -38,7 +46,7 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
             margin_size = 3
         elif margin_size <= 0:
             return
-
+ 
         # get the number of lines visible in the view
         line_height = self.view.line_height()
         viewport_height = self.view.viewport_extent()[1]
@@ -66,14 +74,15 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
 class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
     """
     A TextCommand that can be set to run whenever a certain key binding is
-    entered (for example, "alt+shift+m").
+    entered (for example, "alt+shift+m"). Toggles whether the bottom margin 
+    is enabled or not.
 
     Example: (in Default.sublime-keymap)
         [{ "keys":["alt+shift+m"], "command":"toggle_bottom_margin" }]
     """
     def run(self, edit):
         setting_name = 'bottom_margin_off'
-        sets = sublime.load_settings('Preferences.sublime-settings')
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
         margin_off = sets.get(setting_name)
 
         if type(margin_off)==bool:
@@ -81,4 +90,34 @@ class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
         else:   # margin was originally on; must turn off
             sets.set(setting_name, True)
 
-        sublime.save_settings('Preferences.sublime-settings')
+        sublime.save_settings('BottomMargin.sublime-settings')
+
+    def is_checked(self):
+        setting_name = 'bottom_margin_off'
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
+        margin_off = sets.get(setting_name)
+
+        if type(margin_off)==bool:
+            return not margin_off
+        else:
+            return True
+
+class ChangeBottomMarginSizeCommand(sublime_plugin.TextCommand):
+    """
+    A TextCommand that increases the bottom margin size by one line.
+    Can be set to run whenever a key binding is entered (for example,
+    "alt+shift+k").
+
+    Example: (in Default.sublime-keymap)
+        [{ "keys":["alt+shift+k"], "command":"_bottom_margin_size" }]    
+    """
+    def run(self, edit, change_by):
+        setting_name = 'bottom_margin_size'
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
+        margin_size = sets.get(setting_name)
+
+        if not (type(margin_size)==int or type(margin_size)==float):
+            margin_size = 3
+
+        sets.set(setting_name, int(margin_size)+change_by)
+        sublime.save_settings('BottomMargin.sublime-settings')
