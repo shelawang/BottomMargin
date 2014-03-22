@@ -91,7 +91,7 @@ class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
         if type(margin_on)==bool:
             sets.set(setting_name, margin_on)
         else:   # margin was originally on; must turn off
-            sets.set(setting_name, True)
+            sets.set(setting_name, False)
 
         sublime.save_settings('BottomMargin.sublime-settings')
 
