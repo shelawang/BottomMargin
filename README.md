@@ -36,7 +36,7 @@ To manually manage the settings of this plugin:
 2. If the file is blank, copy and paste in the default settings:
 
         {
-            "bottom_margin_off": false,
+            "bottom_margin_on": true,
             "bottom_margin_size": 3
         }
 
@@ -50,11 +50,11 @@ To manually manage the settings of this plugin:
 - set to 0 or a negative integer to turn off bottom margin (ie, default Sublime behavior)
 - if this setting is not present, default is 3
 
-`bottom_margin_off`
+`bottom_margin_on`
 
 - toggled by the key binding (see below)
-- set to `true` to return to default Sublime behavior
-- set to `false` to enable bottom margin
+- set to `true` to enable bottom margin
+- set to `false` to return to default Sublime behavior
 - if this setting is not present, bottom margin is enabled by default
 
 

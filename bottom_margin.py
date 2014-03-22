@@ -16,9 +16,9 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
 
     Settings:
 
-    bottom_margin_off: 
-        - set to true to disable reposition command (default Sublime behavior)
-        - set to false (or remove) to enable reposition command
+    bottom_margin_on: 
+        - set to true (or remove) to enable reposition command
+        - set to false to disable reposition command (default Sublime behavior)
     bottom_margin_size:
         - set to 0 or any negative number to disable repositioning
         - set to a postive integer to control size of bottom margin
@@ -27,18 +27,21 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
         # get the necessary settings
         sets = sublime.load_settings('BottomMargin.sublime-settings')
 
+        # if the settings don't exist, create them (for user convenience)
         if not sets.has('bottom_margin_size'):
             sets.set('bottom_margin_size', 3)
             sublime.save_settings('BottomMargin.sublime-settings')
-        if not sets.has('bottom_margin_off'):
-            sets.set('bottom_margin_off', False)
+        if not sets.has('bottom_margin_on'):
+            sets.set('bottom_margin_on', True)
             sublime.save_settings('BottomMargin.sublime-settings')
-            
+        # if not sets.has('focus_mode'):
+            # sets.set('focus_mode', False)
+
         margin_size = sets.get('bottom_margin_size')
-        margin_off = sets.get('bottom_margin_off')
+        margin_on = sets.get('bottom_margin_on')
 
         # check if settings exist and allow repositioning
-        if type(margin_off)==bool and margin_off:
+        if type(margin_on)==bool and not margin_on:
             return
         if type(margin_size)==float:
             margin_size = int(margin_size)
@@ -81,24 +84,24 @@ class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
         [{ "keys":["alt+shift+m"], "command":"toggle_bottom_margin" }]
     """
     def run(self, edit):
-        setting_name = 'bottom_margin_off'
+        setting_name = 'bottom_margin_on'
         sets = sublime.load_settings('BottomMargin.sublime-settings')
-        margin_off = sets.get(setting_name)
+        margin_on = sets.get(setting_name)
 
-        if type(margin_off)==bool:
-            sets.set(setting_name, not margin_off)
+        if type(margin_on)==bool:
+            sets.set(setting_name, margin_on)
         else:   # margin was originally on; must turn off
             sets.set(setting_name, True)
 
         sublime.save_settings('BottomMargin.sublime-settings')
 
     def is_checked(self):
-        setting_name = 'bottom_margin_off'
+        setting_name = 'bottom_margin_on'
         sets = sublime.load_settings('BottomMargin.sublime-settings')
-        margin_off = sets.get(setting_name)
+        margin_on = sets.get(setting_name)
 
-        if type(margin_off)==bool:
-            return not margin_off
+        if type(margin_on)==bool:
+            return margin_on
         else:
             return True
 
