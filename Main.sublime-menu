@@ -1,0 +1,50 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "Bottom Margin",
+                        "children":
+                        [
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/User/BottomMargin.sublime-settings"},
+                                "caption": "Settings"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/BottomMargin/Default.sublime-keymap"},
+                                "caption": "Key Bindings"
+                            },
+                            { "caption": "-" },
+                            {
+                                "command": "toggle_bottom_margin",
+                                "caption": "Enable Bottom Margin",
+                                "checkbox": true
+                            },
+                            {
+                                "command" : "change_bottom_margin_size",
+                                "args" : {"change_by" : 1},
+                                "caption": "Increase Margin Size"
+                            },
+                            {
+                                "command" : "change_bottom_margin_size",
+                                "args" : {"change_by" : -1},
+                                "caption": "Decrease Margin Size"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
