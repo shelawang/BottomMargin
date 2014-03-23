@@ -11,11 +11,12 @@ I made this plugin because I was too lazy to look all the way at the bottom of t
     * In Sublime Text 3, the Packages directory is called `Data/Packages`.
     * You can find this directory by clicking `Preferences > Browse Packages...` in Sublime.
 2. Restart Sublime Text to complete installation.
+3. In order for this plugin to work properly, the `scroll_past_end` setting in `Preferences > Settings - User` must be set to `true`.
 
 
 ## Usage
 
-Plugin properties (margin size, on/off) can be changed in the `Preferences > Package Settings > Bottom Margin` menu.
+Plugin properties (margin size, on/off, etc.) can be changed in the `Preferences > Package Settings > Bottom Margin` menu.
 
 ### Commands
 
@@ -24,11 +25,14 @@ Plugin properties (margin size, on/off) can be changed in the `Preferences > Pac
 | `alt+shift+m` | Bottom Margin: Toggle On/Off        |
 | `alt+shift+j` | Bottom Margin: Decrease Margin Size |
 | `alt+shift+k` | Bottom Margin: Increase Margin Size |
+| `alt+shift+t` | Bottom Margin: Toggle Typewriter Mode |
 
 The Command Palette is opened using the key binding `ctrl+shift+p` (Windows) or `cmd+shift+p` (OSX).
 
 
 ## Configuration
+
+All of the settings below can be manipulated using key bindings and the Command Palette.
 
 To manually manage the settings of this plugin:
 
@@ -37,7 +41,8 @@ To manually manage the settings of this plugin:
 
         {
             "bottom_margin_on": true,
-            "bottom_margin_size": 3
+            "bottom_margin_size": 3,
+            "typewriter_mode": false
         }
 
 3. The plugin's key bindings can be edited by going to `Preferences > Package Settings > Bottom Margin > Key Bindings`.
@@ -52,19 +57,25 @@ To manually manage the settings of this plugin:
 
 `bottom_margin_on`
 
-- toggled by the key binding (see below)
 - set to `true` to enable bottom margin
 - set to `false` to return to default Sublime behavior
 - if this setting is not present, bottom margin is enabled by default
+
+`typewriter_mode`
+
+- set to `true` to enable Typewriter Mode, set to `false` to disable
+- if the setting is not present, Typewriter Mode is disabled by default
+- Note: `bottom_margin_on` setting must be set to `true` (or not present) to enable Typewriter Mode
 
 
 ## Coming Soon
 
 - Screenshots
 - Installation using Package Control
-- Typewriter mode: set the bottom margin to be half of the window size
+- Better behavior for files with wrapped lines
 - Focus mode: dim all but several lines around the current line (if possible)
 - Sublime Text 2 version
+- OSX testing
 
 
 ## License

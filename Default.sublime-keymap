@@ -12,5 +12,9 @@
         "keys" : ["alt+shift+k"],
         "command" : "change_bottom_margin_size",
         "args" : {"change_by" : 1}
+    },
+    {
+        "keys" : ["alt+shift+t"],
+        "command" : "toggle_typewriter_mode"
     }
 ]

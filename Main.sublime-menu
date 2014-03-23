@@ -32,14 +32,20 @@
                                 "checkbox": true
                             },
                             {
-                                "command" : "change_bottom_margin_size",
-                                "args" : {"change_by" : 1},
+                                "command": "change_bottom_margin_size",
+                                "args": {"change_by" : 1},
                                 "caption": "Increase Margin Size"
                             },
                             {
-                                "command" : "change_bottom_margin_size",
-                                "args" : {"change_by" : -1},
+                                "command": "change_bottom_margin_size",
+                                "args": {"change_by" : -1},
                                 "caption": "Decrease Margin Size"
+                            },
+                            { "caption": "-"},
+                            {
+                                "command": "toggle_typewriter_mode",
+                                "caption": "Enable Typewriter Mode",
+                                "checkbox": true
                             }
                         ]
                     }

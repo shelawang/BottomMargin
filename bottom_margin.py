@@ -1,5 +1,9 @@
 import sublime, sublime_plugin
 
+MARGIN_SIZE_SETTING = 'bottom_margin_size'
+MARGIN_ON_SETTING = 'bottom_margin_on'
+TYPEWRITER_SETTING = 'typewriter_mode'
+
 class BottomOfViewListener(sublime_plugin.EventListener):
     def on_modified(self, view):
         view.run_command('reposition_view')
@@ -13,42 +17,39 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
     If settings allow for it, then this command will reposition the view so that
     the cursor will always be a certain offset from the bottom of the window
     while the user is typing.
-
-    Settings:
-
-    bottom_margin_on: 
-        - set to true (or remove) to enable reposition command
-        - set to false to disable reposition command (default Sublime behavior)
-    bottom_margin_size:
-        - set to 0 or any negative number to disable repositioning
-        - set to a postive integer to control size of bottom margin
     """
     def run(self, edit):
         # get the necessary settings
         sets = sublime.load_settings('BottomMargin.sublime-settings')
 
         # if the settings don't exist, create them (for user convenience)
-        if not sets.has('bottom_margin_size'):
-            sets.set('bottom_margin_size', 3)
+        settings_changed = False
+        if not sets.has(MARGIN_SIZE_SETTING):
+            sets.set(MARGIN_SIZE_SETTING, 3)
+            settings_changed = True
+        if not sets.has(MARGIN_ON_SETTING):
+            sets.set(MARGIN_ON_SETTING, True)
+            settings_changed = True
+        if not sets.has(TYPEWRITER_SETTING):
+            sets.set(TYPEWRITER_SETTING, False)
+            settings_changed = True
+        if settings_changed:
             sublime.save_settings('BottomMargin.sublime-settings')
-        if not sets.has('bottom_margin_on'):
-            sets.set('bottom_margin_on', True)
-            sublime.save_settings('BottomMargin.sublime-settings')
-        # if not sets.has('focus_mode'):
-            # sets.set('focus_mode', False)
 
-        margin_size = sets.get('bottom_margin_size')
-        margin_on = sets.get('bottom_margin_on')
+        margin_size = sets.get(MARGIN_SIZE_SETTING)
+        margin_on = sets.get(MARGIN_ON_SETTING)
+        typewriter_mode = sets.get(TYPEWRITER_SETTING)
 
         # check if settings exist and allow repositioning
         if type(margin_on)==bool and not margin_on:
             return
-        if type(margin_size)==float:
-            margin_size = int(margin_size)
-        if not type(margin_size)==int:
-            margin_size = 3
-        elif margin_size <= 0:
-            return
+        if not typewriter_mode:
+            if type(margin_size)==float:
+                margin_size = int(margin_size)
+            if not type(margin_size)==int:
+                margin_size = 3
+            elif margin_size <= 0:
+                return
  
         # get the number of lines visible in the view
         line_height = self.view.line_height()
@@ -65,12 +66,24 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
         num_lines_out_of_view = int(viewport_y_pos/line_height)
         cursor_actual_pos = cursor_line_num - num_lines_out_of_view
 
-        # reposition view if cursor is below a given line
-        max_cursor_pos = num_lines_in_view-margin_size
-        if cursor_actual_pos > max_cursor_pos:
-            old_pos = self.view.viewport_position()
-            num_extra_lines_needed = cursor_actual_pos-max_cursor_pos
-            new_pos = (old_pos[0], old_pos[1]+num_extra_lines_needed*line_height)
+        move_needed = False
+        if typewriter_mode:
+            # reposition view to keep cursor at center
+            center_line = int(viewport_height/2/line_height)
+            if cursor_actual_pos != center_line:
+                move_needed = True
+                old_pos = self.view.viewport_position()
+                num_lines_to_move = cursor_actual_pos-center_line
+        else:
+            # reposition view if cursor is below a given line
+            max_cursor_pos = num_lines_in_view-margin_size
+            if cursor_actual_pos > max_cursor_pos:
+                move_needed = True
+                old_pos = self.view.viewport_position()
+                num_lines_to_move = cursor_actual_pos-max_cursor_pos
+                
+        if move_needed:
+            new_pos = (old_pos[0], old_pos[1]+num_lines_to_move*line_height)
             self.view.set_viewport_position(new_pos)
 
 
@@ -81,46 +94,75 @@ class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
     is enabled or not.
 
     Example: (in Default.sublime-keymap)
-        [{ "keys":["alt+shift+m"], "command":"toggle_bottom_margin" }]
+        { "keys":["alt+shift+m"], "command":"toggle_bottom_margin" }
     """
     def run(self, edit):
-        setting_name = 'bottom_margin_on'
         sets = sublime.load_settings('BottomMargin.sublime-settings')
-        margin_on = sets.get(setting_name)
+        margin_on = sets.get(MARGIN_ON_SETTING)
 
         if type(margin_on)==bool:
-            sets.set(setting_name, margin_on)
+            sets.set(MARGIN_ON_SETTING, not margin_on)
         else:   # margin was originally on; must turn off
-            sets.set(setting_name, False)
+            sets.set(MARGIN_ON_SETTING, False)
 
         sublime.save_settings('BottomMargin.sublime-settings')
 
     def is_checked(self):
-        setting_name = 'bottom_margin_on'
         sets = sublime.load_settings('BottomMargin.sublime-settings')
-        margin_on = sets.get(setting_name)
+        margin_on = sets.get(MARGIN_ON_SETTING)
 
         if type(margin_on)==bool:
             return margin_on
         else:
             return True
 
+
 class ChangeBottomMarginSizeCommand(sublime_plugin.TextCommand):
     """
     A TextCommand that increases the bottom margin size by one line.
     Can be set to run whenever a key binding is entered (for example,
-    "alt+shift+k").
+    "alt+shift+k" and "alt+shift+j").
 
     Example: (in Default.sublime-keymap)
-        [{ "keys":["alt+shift+k"], "command":"_bottom_margin_size" }]    
+        { "keys":["alt+shift+k"], "command":"change_bottom_margin_size",
+            "args" : {"change_by" : 1} }
     """
     def run(self, edit, change_by):
-        setting_name = 'bottom_margin_size'
         sets = sublime.load_settings('BottomMargin.sublime-settings')
-        margin_size = sets.get(setting_name)
+        margin_size = sets.get(MARGIN_SIZE_SETTING)
 
         if not (type(margin_size)==int or type(margin_size)==float):
             margin_size = 3
 
-        sets.set(setting_name, int(margin_size)+change_by)
+        sets.set(MARGIN_SIZE_SETTING, int(margin_size)+change_by)
         sublime.save_settings('BottomMargin.sublime-settings')
+
+
+class ToggleTypewriterModeCommand(sublime_plugin.TextCommand):
+    """
+    A TextCommand that toggles whether typewriter mode is on or not.
+    Can be set to run when a key binding is entered (for example, 
+    "alt+shift+t").
+
+    Example: (in Default.sublime-keymap)
+        { "keys":["alt+shift+t"], "command":"toggle_typewriter" }
+    """
+    def run(self, edit):
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
+        typewriter_mode = sets.get(TYPEWRITER_SETTING)
+
+        if type(typewriter_mode)==bool:
+            sets.set(TYPEWRITER_SETTING, not typewriter_mode)
+        else:   # typewriter was originally off; must turn on
+            sets.set(TYPEWRITER_SETTING, True)
+
+        sublime.save_settings('BottomMargin.sublime-settings')
+
+    def is_checked(self):
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
+        typewriter_mode = sets.get(TYPEWRITER_SETTING)
+
+        if type(typewriter_mode)==bool:
+            return typewriter_mode
+        else:
+            return False
