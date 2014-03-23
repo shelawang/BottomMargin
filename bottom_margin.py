@@ -92,9 +92,6 @@ class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
     A TextCommand that can be set to run whenever a certain key binding is
     entered (for example, "alt+shift+m"). Toggles whether the bottom margin 
     is enabled or not.
-
-    Example: (in Default.sublime-keymap)
-        { "keys":["alt+shift+m"], "command":"toggle_bottom_margin" }
     """
     def run(self, edit):
         sets = sublime.load_settings('BottomMargin.sublime-settings')
@@ -122,10 +119,6 @@ class ChangeBottomMarginSizeCommand(sublime_plugin.TextCommand):
     A TextCommand that increases the bottom margin size by one line.
     Can be set to run whenever a key binding is entered (for example,
     "alt+shift+k" and "alt+shift+j").
-
-    Example: (in Default.sublime-keymap)
-        { "keys":["alt+shift+k"], "command":"change_bottom_margin_size",
-            "args" : {"change_by" : 1} }
     """
     def run(self, edit, change_by):
         sets = sublime.load_settings('BottomMargin.sublime-settings')
@@ -143,9 +136,6 @@ class ToggleTypewriterModeCommand(sublime_plugin.TextCommand):
     A TextCommand that toggles whether typewriter mode is on or not.
     Can be set to run when a key binding is entered (for example, 
     "alt+shift+t").
-
-    Example: (in Default.sublime-keymap)
-        { "keys":["alt+shift+t"], "command":"toggle_typewriter" }
     """
     def run(self, edit):
         sets = sublime.load_settings('BottomMargin.sublime-settings')

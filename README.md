@@ -16,7 +16,7 @@ I made this plugin because I was too lazy to look all the way at the bottom of t
 
 ## Usage
 
-Plugin properties (margin size, on/off, etc.) can be changed in the `Preferences > Package Settings > Bottom Margin` menu.
+Plugin properties (margin size, on/off, etc.) can be changed either in the `Preferences > Package Settings > Bottom Margin` menu or by using the following key bindings and commands.
 
 ### Commands
 
