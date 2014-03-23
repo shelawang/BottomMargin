@@ -122,7 +122,7 @@ class ChangeBottomMarginSizeCommand(sublime_plugin.TextCommand):
     "alt+shift+k" and "alt+shift+j").
     """
     def run(self, edit, change_by):
-        sets        = sublime.load_settings('BottomMargin.sublime-settings')
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
         margin_size = sets.get(MARGIN_SIZE_SETTING)
 
         if not (type(margin_size)==int or type(margin_size)==float):
@@ -139,7 +139,7 @@ class ToggleTypewriterModeCommand(sublime_plugin.TextCommand):
     "alt+shift+t").
     """
     def run(self, edit):
-        sets            = sublime.load_settings('BottomMargin.sublime-settings')
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
         typewriter_mode = sets.get(TYPEWRITER_SETTING)
 
         if type(typewriter_mode)==bool:
@@ -151,7 +151,7 @@ class ToggleTypewriterModeCommand(sublime_plugin.TextCommand):
         sublime.save_settings('BottomMargin.sublime-settings')
 
     def is_checked(self):
-        sets            = sublime.load_settings('BottomMargin.sublime-settings')
+        sets = sublime.load_settings('BottomMargin.sublime-settings')
         typewriter_mode = sets.get(TYPEWRITER_SETTING)
 
         if type(typewriter_mode)==bool:
