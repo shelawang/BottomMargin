@@ -50,12 +50,12 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
                 margin_size = 3
             elif margin_size <= 0:
                 return
- 
+
         # get the number of lines visible in the view
         line_height           = self.view.line_height()
         viewport_height       = self.view.viewport_extent()[1]
         num_lines_in_view     = int(viewport_height/line_height)
-        
+
         # get the line number that the cursor is on
         selection             = self.view.sel()
         end_of_sel            = selection[len(selection)-1].end()
@@ -81,7 +81,7 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
                 move_needed       = True
                 old_pos           = self.view.viewport_position()
                 num_lines_to_move = cursor_actual_pos-max_cursor_pos
-                
+
         if move_needed:
             new_pos = (old_pos[0], old_pos[1]+num_lines_to_move*line_height)
             self.view.set_viewport_position(new_pos)
@@ -90,7 +90,7 @@ class RepositionViewCommand(sublime_plugin.TextCommand):
 class ToggleBottomMarginCommand(sublime_plugin.TextCommand):
     """
     A TextCommand that can be set to run whenever a certain key binding is
-    entered (for example, "alt+shift+m"). Toggles whether the bottom margin 
+    entered (for example, "alt+shift+m"). Toggles whether the bottom margin
     is enabled or not.
     """
     def run(self, edit):
@@ -135,7 +135,7 @@ class ChangeBottomMarginSizeCommand(sublime_plugin.TextCommand):
 class ToggleTypewriterModeCommand(sublime_plugin.TextCommand):
     """
     A TextCommand that toggles whether typewriter mode is on or not.
-    Can be set to run when a key binding is entered (for example, 
+    Can be set to run when a key binding is entered (for example,
     "alt+shift+t").
     """
     def run(self, edit):
